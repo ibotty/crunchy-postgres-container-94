@@ -120,11 +120,12 @@ Openshift includes a DNS-to-Docker bridge for you.
 crunchy-pg is a container image that allows you to run
 Postgresql 9.4.4 within Openshift (v.1.0.3).
 
-There are 3 possible scenarios that are included in this
+There are 4 possible scenarios that are included in this
 repository:
-- standalone 
-- master-slave (one master and one slave)
-- master-slave using replication controllers
+- standalone (emptydir volume)
+- master-slave (emptydir volumes, one master and one slave)
+- master-slave using replication controllers (emptydir volumes)
+- standalone (nfs volume)
 
 
 ## Openshift Configuration
@@ -307,6 +308,11 @@ postgres=# select * from pg_stat_replication;
 ## NFS Example
 
 I have provided an example of using NFS for the postgres data volume.
+The NFS example is able to run in selinux Enforcing mode if you 
+following the instructions here:
+
+https://github.com/openshift/origin/tree/master/examples/wordpress
+
 To run it, you would execute the following as the openshift administrator:
 
 ~~~~~~~~~~~~~~~

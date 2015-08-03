@@ -45,7 +45,7 @@ cp /tmp/pgrepl-recovery.conf $PGDATA/recovery.conf
 # the initial start of postgres will create the database
 #
 function initialize_master() {
-if [ ! -f /pgdata/postgresql.conf ]; then
+if [ ! -f $PGDATA/postgresql.conf ]; then
         echo "pgdata is empty and id is..."
 	id
 	mkdir -p $PGDATA
@@ -59,7 +59,7 @@ if [ ! -f /pgdata/postgresql.conf ]; then
 
         echo "starting db" >> /tmp/start-db.log
 
-	pg_ctl -D /pgdata start
+	pg_ctl -D $PGDATA start
         sleep 3
 
         echo "loading setup.sql" >> /tmp/start-db.log
@@ -77,7 +77,7 @@ fi
 }
 
 function initialize_standalone() {
-if [ ! -f /pgdata/postgresql.conf ]; then
+if [ ! -f $PGDATA/postgresql.conf ]; then
 	mkdir -p $PGDATA
 	echo "pgdata is empty"
 	initdb -D $PGDATA  > /tmp/initdb.log &> /tmp/initdb.err
@@ -101,7 +101,7 @@ fi
 # clean up any old pid file that might have remained
 # during a bad shutdown of the container/postgres
 #
-rm /pgdata/postmaster.pid
+rm $PGDATA/postmaster.pid
 #
 # the normal startup of pg
 #

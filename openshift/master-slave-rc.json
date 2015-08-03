@@ -213,7 +213,12 @@
                             "containerPort": 5432,
                             "protocol": "TCP"
                         }],
-                        "env": [{
+                        "env": [
+		        {
+                            "name": "PG_MASTER_HOST",
+                            "value": "${PG_MASTER_SERVICE_NAME}"
+                        }, 
+		        {
                             "name": "PG_MASTER_SERVICE_NAME",
                             "value": "${PG_MASTER_SERVICE_NAME}"
                         }, {

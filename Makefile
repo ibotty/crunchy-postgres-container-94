@@ -1,7 +1,5 @@
-centos:
-	docker build -t crunchy-pg -f Dockerfile.centos7 .
-	docker tag -f crunchy-pg:latest crunchydata/crunchy-pg
-rhel:
-	docker build -t crunchy-pg -f Dockerfile.rhel7 .
-	docker tag -f crunchy-pg:latest crunchydata/crunchy-pg
+OSFLAVOR=centos7
+all:
+	sudo docker build -t crunchy-pg -f Dockerfile.$(OSFLAVOR) .
+	sudo docker tag -f crunchy-pg:latest crunchydata/crunchy-pg
 

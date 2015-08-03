@@ -304,3 +304,27 @@ postgres=# select * from pg_stat_replication;
 ~~~~~~~~~~~~~~~~~
 
 
+## NFS Example
+
+I have provided an example of using NFS for the postgres data volume.
+To run it, you would execute the following as the openshift administrator:
+
+~~~~~~~~~~~~~~~
+oc create -f pv.json
+~~~~~~~~~~~~~~~
+
+Then as the normal openshift user account, create the Persistence Volume
+Claim as follows:
+~~~~~~~~~~~~~~~
+oc create -f pvc.json
+~~~~~~~~~~~~~~~
+
+Lastly,  as the normal openshift user account, create the standalone
+pod which specifies the NFS PVC:
+~~~~~~~~~~~~~~~
+oc process -f standalone-nfs.json | oc create -f -
+~~~~~~~~~~~~~~~
+
+This will create a single standalone postgres pod that is using 
+an NFS volume to store the postgres data files.
+

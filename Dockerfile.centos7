@@ -1,6 +1,12 @@
 FROM docker.io/centos:centos7
 MAINTAINER crunchy
 
+
+LABEL Name crunchydata/crunchy-postgresql:9.4.4
+LABEL Release crunchy-postgresql:9.4.4
+LABEL Vendor Crunchy Data Solutions
+LABEL Version 9.4.4
+
 # Install postgresql deps
 RUN rpm -Uvh http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-1.noarch.rpm
 RUN yum -y --enablerepo=centosplus install gettext epel-release && \

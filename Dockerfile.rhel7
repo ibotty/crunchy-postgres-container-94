@@ -1,6 +1,13 @@
 FROM rhel7.1
 MAINTAINER crunchy
 
+
+LABEL Name crunchydata/crunchy-postgresql:9.4.4
+LABEL Release crunchy-postgresql:9.4.4
+LABEL Vendor Crunchy Data Solutions
+LABEL Version 9.4.4
+
+
 # Install postgresql deps
 RUN rpm -Uvh http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-redhat94-9.4-1.noarch.rpm
 RUN yum -y install libxslt libxml2 procps-ng postgresql94 postgresql94-server postgresql94-contrib openssh-clients hostname bind-utils && yum clean all -y

@@ -133,52 +133,18 @@ repository:
 This example uses Openshift/Kube EmptyDir volumes to hold 
 the Postgresql data files.
 
-For this to work, you will need to configure your 'restricted'
-Openshift settings to include:
-
-[root@origin openshift]# oc get scc restricted
-NAME         PRIV      CAPS             HOSTDIR   SELINUX     RUNASUSER
-restricted   false     [CHOWN FOWNER]   false     MustRunAs   RunAsAny
-
-This can be set by entering the following commands, using 192.168.0.7 as
-your host IP:
-
+At the moment, to run this example in Selinux Enforcing mode, 
+there is a slight bug in the selinux labels
+on the Openshift /var/lib/openshift directory.  As root
+you will need to run the following command to set the selinux
+labels to the correct values:
 ~~~~~~~~~~~~~~~~~
-oc config use-context default/192-168-0-107:8443/system:admin
-oc edit scc restricted --config=/var/lib/openshift/openshift.local.config/master/admin.kubeconfig
-#
-allowHostDirVolumePlugin: false
-allowHostNetwork: false
-allowHostPorts: false
-allowPrivilegedContainer: false
-allowedCapabilities:
-- CHOWN
-- FOWNER
-apiVersion: v1
-groups:
-- system:authenticated
-kind: SecurityContextConstraints
-metadata:
-  creationTimestamp: 2015-07-26T18:04:06Z
-  name: restricted
-  resourceVersion: "392"
-  selfLink: /api/v1/securitycontextconstraints/restricted
-  uid: b4fd5972-33c0-11e5-ba12-74d435ba249b
-runAsUser:
-  type: RunAsAny
-seLinuxContext:
-  type: MustRunAs
-~~~~~~~~~~~~~~~~~~~~~~~
+chcon -Rt svirt_sandbox_file_t /var/lib/openshift
+~~~~~~~~~~~~~~~~~
 
-Within each Openshift JSON template, you will see that we
-add Capabilities (FOWNER, CHOWN) to the SecurityContext.
+This is being tracked with an Openshift github issue.
 
-Also, within the crunchy-pg Dockerfile, we use the setcap
-command to elevate the privileges of the container.  
-
-In this configuration, the containers run as the postgres USER but
-require the setcap priviledges to chown the EmptyDir provisioned volumes
-where Postgresql can write into them.
+https://github.com/openshift/origin/issues/3989
 
 ## Finding the Postgresql Passwords
 

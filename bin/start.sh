@@ -25,7 +25,6 @@ export PG_ROOT_PASSWORD=$PG_ROOT_PASSWORD
 source /opt/cpm/bin/setenv.sh
 
 mkdir -p /pgdata/$HOSTNAME
-chmod postgres /pgdata/$HOSTNAME
 
 start-pg-wrapper.sh &
 

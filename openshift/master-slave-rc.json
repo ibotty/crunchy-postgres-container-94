@@ -158,7 +158,6 @@
                         "terminationMessagePath": "/dev/termination-log",
                         "imagePullPolicy": "IfNotPresent",
                         "securityContext": {
-                            "capabilities": {"add":["CHOWN","FOWNER"]},
                             "privileged": false
                         },
            "volumeMounts": [{

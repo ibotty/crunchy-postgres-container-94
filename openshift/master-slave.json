@@ -179,7 +179,6 @@
                 }],
                 "securityContext": {
                     "capabilities": {
-                        "add": ["CHOWN", "FOWNER"]
                     }
                 },
 

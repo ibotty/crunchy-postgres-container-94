@@ -64,10 +64,7 @@
             }],
             "selector": {
                 "name": "${PG_MASTER_SERVICE_NAME}"
-            },
-            "portalIP": "None",
-            "type": "ClusterIP",
-            "sessionAffinity": "None"
+            }
         },
         "status": {
             "loadBalancer": {}
@@ -90,10 +87,7 @@
             }],
             "selector": {
                 "name": "${PG_SLAVE_SERVICE_NAME}"
-            },
-            "portalIP": "None",
-            "type": "ClusterIP",
-            "sessionAffinity": "None"
+            }
         },
         "status": {
             "loadBalancer": {}

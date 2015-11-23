@@ -17,10 +17,10 @@ make
 ~~~~~~~~~~~~~~~~~~~~~
  
 
-Running Postgresql in Standalone Mode
+Running PostgreSQL in Standalone Mode
 ------------
 
-To run the Crunchy PG container on Openshift (v1.0.1), see
+To run the Crunchy PostgreSQL container (crunchy-pg) on Openshift (v1.0.1), see
 the document docs/openshift-setup-nodes.md for complete details
 and instructions.  The container has now been updated to run
 in a master-slave replication configuration as well as standalone.
@@ -80,7 +80,7 @@ To start the instance, run the following commands:
 docker start crunchy-pg
 ~~~~~~~~~~~~~~~~~~~~~
 	
-Running Postgresql in Master-Slave Configuration
+Running PostgreSQL in Master-Slave Configuration
 ------------
 The container can be passed environment variables that will cause
 it to assume a PostgreSQL replication configuration with 
@@ -118,7 +118,7 @@ Openshift includes a DNS-to-Docker bridge for you.
 
 # crunchy-pg on Openshift
 crunchy-pg is a container image that allows you to run
-Postgresql 9.4.4 within Openshift (v.1.0.3).
+PostgreSQL 9.4.4 within Openshift (v.1.0.3).
 
 There are 4 possible scenarios that are included in this
 repository:
@@ -131,7 +131,7 @@ repository:
 ## Openshift Configuration
 
 This example uses Openshift/Kube EmptyDir volumes to hold 
-the Postgresql data files.
+the PostgreSQL data files.
 
 At the moment, to run this example in Selinux Enforcing mode, 
 there is a slight bug in the selinux labels
@@ -148,7 +148,7 @@ https://github.com/openshift/origin/issues/3989
 
 ## Finding the Postgresql Passwords
 
-The passwords used for the Postgresql user accounts are generated
+The passwords used for the PostgreSQL user accounts are generated
 by the Openshift 'process' command.  To inspect what value was
 supplied, you can inspect the master pod as follows:
 
@@ -169,7 +169,7 @@ for Services.
 
 ## standalone.json
 
-This openshift template will create a single Postgresql instance.
+This openshift template will create a single PostgreSQL instance.
 
 ### Running the example
 
@@ -187,7 +187,7 @@ psql -h pg-standalone.pgproject.svc.cluster.local -U testuser userdb
 
 ## master-slave.json
 
-This openshift template will create a single master Postgresql instance
+This openshift template will create a single master PostgreSQL instance
 and a single slave instance, configured for streaming replication.
 
 ### Running the example
@@ -206,7 +206,7 @@ psql -h pg-slave.pgproject.svc.cluster.local -U testuser userdb
 
 ## master-slave-rc.json
 
-This openshift template will create a single master Postgresql instance
+This openshift template will create a single master PostgreSQL instance
 and a single slave instance, configured as a Replication Controller, allowing
 you to scale up the number of slave instances.
 
@@ -216,7 +216,7 @@ you to scale up the number of slave instances.
 oc create -f master-slave-rc.json | oc create -f -
 ~~~~~~~~~~~~~~~~
 
-Connect to the postgresql instances with the following:
+Connect to the PostgreSQL instances with the following:
 
 ~~~~~~~~~~~~~~
 psql -h pg-master-rc.pgproject.svc.cluster.local -U testuser userdb
@@ -232,7 +232,7 @@ oc scale rc pg-slave-rc-1 --replicas=2
 
 ## Verify Postgresql Replication is Working
 
-Enter the following commands to verify the Postgresql 
+Enter the following commands to verify the PostgreSQL 
 replication is working.
 
 First, find the pods:

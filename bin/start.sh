@@ -26,6 +26,8 @@ source /opt/cpm/bin/setenv.sh
 
 mkdir -p /pgdata/$HOSTNAME
 
+source check-for-secrets.sh
+
 start-pg-wrapper.sh &
 
 # block here forever

@@ -18,6 +18,12 @@ oc secrets new-basicauth pgmaster --username=master --password=masterpsw
 oc secrets new-basicauth pguser --username=testuser --password=somepassword
 ~~~~~~~~~~~
 
+### Example 1 - pg-standlone-secret
+
+This example is modeled after the pg-standalone example.  In this
+version of the example, database credentials are pulled from secrets
+which are mounted as volumes within the container.
+
 These secrets are used by the pg-standalone-secret pod to use
 as the postgres authentication strings.  Create the example pod
 as follows:
@@ -27,12 +33,7 @@ oc login
 oc process -f standalone-secret.json | oc create -f -
 ~~~~~~~~~~~
 
-This example, mounts the secrets into the containers /pgsecrets directory.
-The start.sh script will pull a username and password from this directory if
-exists and use it to populate the postgres database.
-
 You should have a secret, running pod, and service:
-
 ~~~~~~~~~~~
 oc get pods
 oc get services
@@ -43,3 +44,13 @@ Test the container by logging into the postgresql database:
 ~~~~~~~~~
 psql -h serviceIP -U testuser userdb
 ~~~~~~~~~
+
+### Example 2 - pg-master-slave-rc-secret.json
+
+This example is modeled after the pg-master-slave-rc.json example but
+uses secrets to obtain the database credentials.
+
+To run the example:
+~~~~~~~~~~~~~~~~
+oc process -f master-slave-rc-secret.json | oc create -f -
+~~~~~~~~~~~~~~~~

@@ -22,6 +22,11 @@ sudo chown postgres:postgres $DATA_DIR
 sudo chcon -Rt svirt_sandbox_file_t $DATA_DIR
 sudo docker run \
 	-p 12000:5432 \
+	-e TEMP_BUFFERS=9MB \
+	-e MAX_CONNECTIONS=101 \
+	-e SHARED_BUFFERS=129MB \
+	-e MAX_WAL_SENDERS=7 \
+	-e WORK_MEM=5MB \
 	-e PG_MODE=standalone \
 	-e PG_USER=testuser \
 	-e PG_PASSWORD=testpsw \

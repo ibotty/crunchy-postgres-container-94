@@ -19,6 +19,42 @@
 
 source /opt/cpm/bin/setenv.sh
 
+
+function fill_conf_file() {
+	if [[ -v TEMP_BUFFERS ]]; then
+		echo "overriding TEMP_BUFFERS setting to " + $TEMP_BUFFERS
+	else
+		TEMP_BUFFERS=8MB
+	fi
+	if [[ -v MAX_CONNECTIONS ]]; then
+		echo "overriding MAX_CONNECTIONS setting to " + $MAX_CONNECTIONS
+	else
+		MAX_CONNECTIONS=100
+	fi
+	if [[ -v SHARED_BUFFERS ]]; then
+		echo "overriding SHARED_BUFFERS setting to " + $SHARED_BUFFERS
+	else
+		SHARED_BUFFERS=128MB
+	fi
+	if [[ -v WORK_MEM ]]; then
+		echo "overriding WORK_MEM setting to " + $WORK_MEM
+	else
+		WORK_MEM=4MB
+	fi
+	if [[ -v MAX_WAL_SENDERS ]]; then
+		echo "overriding MAX_WAL_SENDERS setting to " + $MAX_WAL_SENDERS
+	else
+		MAX_WAL_SENDERS=6
+	fi
+
+	cp /opt/cpm/conf/postgresql.conf.template /tmp/postgresql.conf
+	sed -i "s/TEMP_BUFFERS/$TEMP_BUFFERS/g" /tmp/postgresql.conf
+	sed -i "s/MAX_CONNECTIONS/$MAX_CONNECTIONS/g" /tmp/postgresql.conf
+	sed -i "s/SHARED_BUFFERS/$SHARED_BUFFERS/g" /tmp/postgresql.conf
+	sed -i "s/MAX_WAL_SENDERS/$MAX_WAL_SENDERS/g" /tmp/postgresql.conf
+	sed -i "s/WORK_MEM/$WORK_MEM/g" /tmp/postgresql.conf
+}
+
 function initialize_replica() {
 cd /tmp  
 cat >> ".pgpass" <<-EOF
@@ -52,7 +88,7 @@ if [ ! -f $PGDATA/postgresql.conf ]; then
 	initdb -D $PGDATA  > /tmp/initdb.log &> /tmp/initdb.err
 
 	echo "overlay pg config with your settings...."
-	cp /opt/cpm/conf/postgresql.conf $PGDATA
+	cp /tmp/postgresql.conf $PGDATA
 	cp /opt/cpm/conf/pg_hba.conf /tmp
 	sed -i "s/PG_MASTER_USER/$PG_MASTER_USER/g" /tmp/pg_hba.conf
 	cp /tmp/pg_hba.conf $PGDATA
@@ -82,7 +118,7 @@ if [ ! -f $PGDATA/postgresql.conf ]; then
 	echo "pgdata is empty"
 	initdb -D $PGDATA  > /tmp/initdb.log &> /tmp/initdb.err
 	echo "overlay pg config with your settings...."
-	cp /opt/cpm/conf/postgresql.conf $PGDATA
+	cp /tmp/postgresql.conf $PGDATA
 	cp /opt/cpm/conf/pg_hba.conf.standalone $PGDATA/pg_hba.conf
 	echo "starting db" >> /tmp/start-db.log
 	pg_ctl -D $PGDATA start
@@ -111,6 +147,8 @@ rm $PGDATA/postmaster.pid
 #export LD_PRELOAD=libnss_wrapper.so NSS_WRAPPER_PASSWD=/tmp/passwd  NSS_WRAPPER_GROUP=/etc/group
 echo "user id is..."
 id
+
+fill_conf_file
 
 case "$PG_MODE" in 
 	"slave")

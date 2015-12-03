@@ -52,6 +52,16 @@ on the environment variable values.
 The script also maps the PostgreSQL port of 5432 in the container
 to your local host port of 12000.
 
+You can adjust the following Postgres configuration parameters
+by setting environment variables:
+~~~~
+MAX_CONNECTIONS - defaults to 100
+SHARED_BUFFERS - defaults to 128MB
+TEMP_BUFFERS - defaults to 8MB
+WORK_MEM - defaults to 4MB
+MAX_WAL_SENDERS - defaults to 6
+~~~~
+
 
 Connecting to  PostgreSQL
 ------------

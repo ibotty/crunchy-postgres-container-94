@@ -20,7 +20,7 @@ make
 Running PostgreSQL in Standalone Mode
 ------------
 
-To run the Crunchy PostgreSQL container (crunchy-pg) on Openshift (v1.0.1), see
+To run the Crunchy PostgreSQL container (crunchy-pg) on Openshift, see
 the document docs/openshift-setup-nodes.md for complete details
 and instructions.  The container has now been updated to run
 in a master-slave replication configuration as well as standalone.

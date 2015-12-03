@@ -106,7 +106,20 @@ PG_DATABASE - The name of the database that will be created value=userdb
 PG_ROOT_PASSWORD - The password for the PG admin
 ~~~~~~~~~~~~~~~~~~~
 
-The openshift sample template specifies values for these env variables.
+For running this master-slave configuration outside of Openshift, you can
+run the following scripts:
+~~~~~~
+run-pg-master.sh
+run-pg-replica.sh
+~~~~~~
+
+Modify the run-pg-replica.sh script to include the Docker assigned IP address of the master
+container.
+
+This set of scripts will create a single master that replicates to a single standby database.
+
+
+### DNS
 
 To run the crunchy-pg container outside of Openshift, and when you
 want a master-slave configuration, you would pass in suitable values

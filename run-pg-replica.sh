@@ -30,7 +30,7 @@ sudo docker run \
 	-e PG_MODE=slave \
 	-e PG_MASTER_USER=masteruser \
 	-e PG_MASTER_PASSWORD=masterpsw \
-	-e PG_MASTER_HOST=172.17.0.36 \
+	-e PG_MASTER_HOST=pg-master \
 	-e PG_USER=testuser \
 	-e PG_ROOT_PASSWORD=rootpsw \
 	-e PG_PASSWORD=testpsw \

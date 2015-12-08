@@ -174,6 +174,9 @@
                     "name": "PG_MASTER_HOST",
                     "value": "pg-master"
                 }, {
+                    "name": "PG_MASTER_PORT",
+                    "value": "5432"
+                }, {
                     "name": "PG_DATABASE",
                     "value": "${PG_DATABASE}"
                 }],

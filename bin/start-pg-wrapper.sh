@@ -68,12 +68,13 @@ chmod 0700 $PGDATA
 echo "sleeping 30 seconds to give the master time to start up before performing the initial backup...."
 sleep 30
 
-pg_basebackup -x --no-password --pgdata $PGDATA --host=$PG_MASTER_HOST --port=5432 -U $PG_MASTER_USER
+pg_basebackup -x --no-password --pgdata $PGDATA --host=$PG_MASTER_HOST --port=$PG_MASTER_PORT -U $PG_MASTER_USER
 
 # PostgreSQL recovery configuration.
 cp /opt/cpm/conf/pgrepl-recovery.conf /tmp
 sed -i "s/PG_MASTER_USER/$PG_MASTER_USER/g" /tmp/pgrepl-recovery.conf
 sed -i "s/PG_MASTER_HOST/$PG_MASTER_HOST/g" /tmp/pgrepl-recovery.conf
+sed -i "s/PG_MASTER_PORT/$PG_MASTER_PORT/g" /tmp/pgrepl-recovery.conf
 cp /tmp/pgrepl-recovery.conf $PGDATA/recovery.conf
 }
 

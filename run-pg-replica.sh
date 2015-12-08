@@ -31,6 +31,7 @@ sudo docker run \
 	-e PG_MASTER_USER=masteruser \
 	-e PG_MASTER_PASSWORD=masterpsw \
 	-e PG_MASTER_HOST=pg-master \
+	-e PG_MASTER_PORT=5432 \
 	-e PG_USER=testuser \
 	-e PG_ROOT_PASSWORD=rootpsw \
 	-e PG_PASSWORD=testpsw \

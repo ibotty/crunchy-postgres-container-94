@@ -15,6 +15,11 @@
 # limitations under the License.
 
 echo "starting crunchy-pg container..."
+#PGCONF=/home/jeffmc/crunchy-postgres-container-94/pgconf
+#sudo chown postgres:postgres $PGCONF
+#sudo chcon -Rt svirt_sandbox_file_t $PGCONF
+#	-v $PGCONF:/pgconf \
+
 DATA_DIR=/tmp/crunchy-pg-data
 sudo rm -rf $DATA_DIR
 sudo mkdir -p $DATA_DIR
@@ -22,6 +27,7 @@ sudo chown postgres:postgres $DATA_DIR
 sudo chcon -Rt svirt_sandbox_file_t $DATA_DIR
 sudo docker run \
 	-p 12000:5432 \
+	-v $DATA_DIR:/pgdata \
 	-e TEMP_BUFFERS=9MB \
 	-e MAX_CONNECTIONS=101 \
 	-e SHARED_BUFFERS=129MB \
@@ -31,5 +37,7 @@ sudo docker run \
 	-e PG_USER=testuser \
 	-e PG_PASSWORD=testpsw \
 	-e PG_DATABASE=testdb \
-	--name=crunchy-pg -d -v $DATA_DIR:/pgdata crunchydata/crunchy-pg:latest
+	--name=crunchy-pg \
+	--hostname=crunchy-pg \
+	-d crunchydata/crunchy-pg:latest
 

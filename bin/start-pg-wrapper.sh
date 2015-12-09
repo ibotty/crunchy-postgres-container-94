@@ -19,6 +19,16 @@
 
 source /opt/cpm/bin/setenv.sh
 
+function check_for_overrides() {
+	if [ -f /pgconf/postgresql.conf ]; then
+        	echo "pgconf postgresql.conf is being used"
+		cp /pgconf/postgresql.conf $PGDATA
+	fi
+	if [ -f /pgconf/pg_hba.conf ]; then
+        	echo "pgconf pg_hba.conf is being used"
+		cp /pgconf/pg_hba.conf $PGDATA
+	fi
+}
 
 function fill_conf_file() {
 	if [[ -v TEMP_BUFFERS ]]; then
@@ -94,6 +104,8 @@ if [ ! -f $PGDATA/postgresql.conf ]; then
 	sed -i "s/PG_MASTER_USER/$PG_MASTER_USER/g" /tmp/pg_hba.conf
 	cp /tmp/pg_hba.conf $PGDATA
 
+	check_for_overrides
+
         echo "starting db" >> /tmp/start-db.log
 
 	pg_ctl -D $PGDATA start
@@ -121,6 +133,7 @@ if [ ! -f $PGDATA/postgresql.conf ]; then
 	echo "overlay pg config with your settings...."
 	cp /tmp/postgresql.conf $PGDATA
 	cp /opt/cpm/conf/pg_hba.conf.standalone $PGDATA/pg_hba.conf
+	check_for_overrides
 	echo "starting db" >> /tmp/start-db.log
 	pg_ctl -D $PGDATA start
 	sleep 3
@@ -150,6 +163,7 @@ echo "user id is..."
 id
 
 fill_conf_file
+
 
 case "$PG_MODE" in 
 	"slave")

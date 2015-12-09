@@ -15,13 +15,16 @@
 # limitations under the License.
 
 echo "starting pg-replica container..."
+
 DATA_DIR=/tmp/pg-replica-data
 sudo rm -rf $DATA_DIR
 sudo mkdir -p $DATA_DIR
 sudo chown postgres:postgres $DATA_DIR
 sudo chcon -Rt svirt_sandbox_file_t $DATA_DIR
+
 sudo docker run \
 	-p 12001:5432 \
+	-v $DATA_DIR:/pgdata \
 	-e TEMP_BUFFERS=9MB \
 	-e MAX_CONNECTIONS=101 \
 	-e SHARED_BUFFERS=129MB \
@@ -36,5 +39,7 @@ sudo docker run \
 	-e PG_ROOT_PASSWORD=rootpsw \
 	-e PG_PASSWORD=testpsw \
 	-e PG_DATABASE=testdb \
-	--name=pg-replica -d -v $DATA_DIR:/pgdata crunchydata/crunchy-pg:latest
+	--name=pg-replica \
+	--hostname=pg-replica \
+	-d crunchydata/crunchy-pg:latest
 

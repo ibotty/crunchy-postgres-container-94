@@ -62,6 +62,23 @@ WORK_MEM - defaults to 4MB
 MAX_WAL_SENDERS - defaults to 6
 ~~~~
 
+Overriding Postgres Configuration Files
+---------------------------------------
+
+You have the ability to override the pg_hba.conf and postgresql.conf
+files used by the container.  To enable this, you create a 
+directory to hold your own copy of these configuration files.
+
+Then you mount that directory into the container using the /pgconf
+volume mount as follows:
+
+~~~~~~~
+-v $YOURDIRECTORY:/pgconf
+~~~~~~~
+
+Inside YOURDIRECTORY would be your pg_hba.conf and postgresql.conf
+files.  These files are not manipulated or changed by the container
+start scripts.
 
 Connecting to  PostgreSQL
 ------------

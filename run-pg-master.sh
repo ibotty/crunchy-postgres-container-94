@@ -18,11 +18,11 @@ echo "starting pg-master container..."
 
 # uncomment these lines to override the pg config files with
 # your own versions of pg_hba.conf and postgresql.conf
-#PGCONF=/home/jeffmc/crunchy-postgres-container-94/pgconf
-#sudo chown postgres:postgres $PGCONF
-#sudo chcon -Rt svirt_sandbox_file_t $PGCONF
+PGCONF=/home/jeffmc/crunchy-postgres-container-94/pgconf
+sudo chown postgres:postgres $PGCONF
+sudo chmod 0700 $PGCONF
+sudo chcon -Rt svirt_sandbox_file_t $PGCONF
 # add this next line to the docker run to override pg config files
-#	-v $PGCONF:/pgconf \
 
 DATA_DIR=/tmp/pg-master-data
 sudo rm -rf $DATA_DIR
@@ -33,6 +33,7 @@ sudo chcon -Rt svirt_sandbox_file_t $DATA_DIR
 sudo docker run \
 	-p 12000:5432 \
 	-v $DATA_DIR:/pgdata \
+	-v $PGCONF:/pgconf \
 	-e TEMP_BUFFERS=9MB \
 	-e MAX_CONNECTIONS=101 \
 	-e SHARED_BUFFERS=129MB \

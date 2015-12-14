@@ -22,11 +22,11 @@ source /opt/cpm/bin/setenv.sh
 function check_for_overrides() {
 	if [ -f /pgconf/postgresql.conf ]; then
         	echo "pgconf postgresql.conf is being used"
-		cp /pgconf/postgresql.conf $PGDATA
+#		cp /pgconf/postgresql.conf $PGDATA
 	fi
 	if [ -f /pgconf/pg_hba.conf ]; then
         	echo "pgconf pg_hba.conf is being used"
-		cp /pgconf/pg_hba.conf $PGDATA
+#		cp /pgconf/pg_hba.conf $PGDATA
 	fi
 }
 
@@ -105,10 +105,15 @@ if [ ! -f $PGDATA/postgresql.conf ]; then
 	cp /tmp/pg_hba.conf $PGDATA
 
 	check_for_overrides
-
         echo "starting db" >> /tmp/start-db.log
+	if [ -f /pgconf/postgresql.conf ]; then
+        	echo "pgconf postgresql.conf is being used with PGDATA=" $PGDATA
+		postgres -c config_file=/pgconf/postgresql.conf -c hba_file=/pgconf/pg_hba.conf -D $PGDATA &
+	else
+        	echo "normal postgresql.conf is being used"
+		pg_ctl -D $PGDATA start
+	fi
 
-	pg_ctl -D $PGDATA start
         sleep 3
 
         echo "loading setup.sql" >> /tmp/start-db.log
@@ -134,8 +139,14 @@ if [ ! -f $PGDATA/postgresql.conf ]; then
 	cp /tmp/postgresql.conf $PGDATA
 	cp /opt/cpm/conf/pg_hba.conf.standalone $PGDATA/pg_hba.conf
 	check_for_overrides
+	if [ -f /pgconf/postgresql.conf ]; then
+        	echo "pgconf postgresql.conf is being used with PGDATA=" $PGDATA
+		postgres -c config_file=/pgconf/postgresql.conf -c hba_file=/pgconf/pg_hba.conf -D $PGDATA &
+	else
+        	echo "normal postgresql.conf is being used"
+		pg_ctl -D $PGDATA start
+	fi
 	echo "starting db" >> /tmp/start-db.log
-	pg_ctl -D $PGDATA start
 	sleep 3
 	echo "loading setup.sql" >> /tmp/start-db.log
 	cp /opt/cpm/bin/setup.sql.standalone /tmp
@@ -179,5 +190,11 @@ case "$PG_MODE" in
 	initialize_standalone
 	;;
 esac
-pg_ctl -D $PGDATA start 
+
+if [ -f /pgconf/postgresql.conf ]; then
+       	echo "pgconf postgresql.conf is being used"
+	postgres -c config_file=/pgconf/postgresql.conf -c hba_file=/pgconf/pg_hba.conf -D $PGDATA &
+else
+	pg_ctl -D $PGDATA start 
+fi
 

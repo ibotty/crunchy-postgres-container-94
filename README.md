@@ -1,8 +1,8 @@
-Crunchy PostgreSQL 9.4.4
+Crunchy PostgreSQL 9.4.5
 ==========================
 
 This project includes a Dockerfile that lets you build
-a PostgreSQL 9.4.4 Docker image.  The image by default
+a PostgreSQL 9.4.5 Docker image.  The image by default
 is built on a RHEL 7.1 64 bit base, but can also be built
 on a centos 7 64 bit base.  NOTICE, to build the RHEL 7 
 version of this container, you need to build the Docker
@@ -158,7 +158,7 @@ Openshift includes a DNS-to-Docker bridge for you.
 
 # crunchy-pg on Openshift
 crunchy-pg is a container image that allows you to run
-PostgreSQL 9.4.4 within Openshift (v.1.0.3).
+PostgreSQL 9.4.5 within Openshift.
 
 There are 4 possible scenarios that are included in this
 repository:
@@ -299,7 +299,7 @@ we are replicating database state to 2 pods:
 
 ~~~~~~~~~~~~~~~~~
 bash-4.2$ psql -U postgres postgres
-psql (9.4.4)
+psql (9.4.5)
 Type "help" for help.
 
 postgres=# select * from pg_stat_replication;

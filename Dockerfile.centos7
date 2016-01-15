@@ -2,17 +2,17 @@ FROM docker.io/centos:centos7
 MAINTAINER crunchy
 
 
-LABEL Name crunchydata/crunchy-postgresql:9.4.4
-LABEL Release crunchy-postgresql:9.4.4
+LABEL Name crunchydata/crunchy-postgresql:9.5.0
+LABEL Release crunchy-postgresql:9.5.0
 LABEL Vendor Crunchy Data Solutions
-LABEL Version 9.4.4
+LABEL Version 9.5.0
 
 # Install postgresql deps
-RUN rpm -Uvh http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-1.noarch.rpm
+RUN rpm -Uvh http://yum.postgresql.org/9.5/redhat/rhel-7-x86_64/pgdg-centos95-9.5-2.noarch.rpm
 RUN yum -y --enablerepo=centosplus install gettext epel-release && \
-	yum install -y procps-ng postgresql94 postgresql94-contrib \
-	postgresql94-server openssh-clients hostname bind-utils \
-	postgis2_94 postgis2_94-client pgrouting_94 &&  \
+	yum install -y procps-ng postgresql95 postgresql95-contrib \
+	postgresql95-server openssh-clients hostname bind-utils \
+	postgis2_95 postgis2_95-client pgrouting_95 &&  \
 	yum clean all -y
 
 # set up cpm directory
@@ -23,7 +23,7 @@ RUN mkdir -p /opt/cpm/conf
 RUN chown -R postgres:postgres /opt/cpm
 
 # set environment vars
-ENV PGROOT /usr/pgsql-9.4
+ENV PGROOT /usr/pgsql-9.5
 ENV PGDATA /pgdata
 
 # add path settings for postgres user
@@ -45,8 +45,8 @@ ADD conf /opt/cpm/conf
 #RUN setcap cap_chown,cap_fowner+ep /usr/bin/chown
 #RUN setcap cap_chown,cap_fowner+ep /usr/bin/chmod
 #RUN setcap cap_chown,cap_fowner+ep /opt/cpm/bin/start.sh
-#RUN setcap cap_chown,cap_fowner+ep /usr/pgsql-9.4/bin/pg_ctl
-#RUN setcap cap_chown,cap_fowner+ep /usr/pgsql-9.4/bin/initdb
+#RUN setcap cap_chown,cap_fowner+ep /usr/pgsql-9.5/bin/pg_ctl
+#RUN setcap cap_chown,cap_fowner+ep /usr/pgsql-9.5/bin/initdb
 
 RUN chown -R postgres:postgres /pgdata
 

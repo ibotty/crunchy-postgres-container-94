@@ -15,6 +15,10 @@
         "description": "The username used for master-slave replication",
         "value": "master"
     }, {
+        "name": "DOCKER_IMAGE",
+        "description": "The Docker image to use",
+        "value": "crunchydata/crunchy-pg"
+    }, {
         "name": "PG_MASTER_PASSWORD",
         "description": "The password for the PG master user",
         "generate": "expression",
@@ -100,7 +104,7 @@
         "spec": {
             "containers": [{
                 "name": "pg-master",
-                "image": "crunchydata/crunchy-pg",
+                "image": "${IMAGE}",
                 "ports": [{
                     "containerPort": 5432,
                     "protocol": "TCP"
@@ -156,7 +160,7 @@
         "spec": {
             "containers": [{
                 "name": "pg-slave",
-                "image": "crunchydata/crunchy-pg",
+                "image": "${IMAGE}",
                 "ports": [{
                     "containerPort": 5432,
                     "protocol": "TCP"
